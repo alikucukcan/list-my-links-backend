@@ -1,0 +1,27 @@
+{
+  "name": "list-my-links-backend",
+  "version": "1.0.0",
+  "description": "Backend project for ListMyLinks",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodxe index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alikucukcan/list-my-links-backend.git"
+  },
+  "author": "Ali Kücükcan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alikucukcan/list-my-links-backend/issues"
+  },
+  "homepage": "https://github.com/alikucukcan/list-my-links-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.3",
+    "multer": "^1.4.5-lts.1"
+  }
+}
