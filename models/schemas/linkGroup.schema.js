@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const LinkSchema = require("./link.schema");
+const LinkSchema = require("./schemas/link.schema");
 
 const LinkGroupSchema = new mongoose.Schema(
   {

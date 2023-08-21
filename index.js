@@ -1,5 +1,5 @@
 const express = require("express");
-const UserModel = require("./models/user.model");
+const UserModel = require("./models/schemas/user.model");
 const { default: mongoose } = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
