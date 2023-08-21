@@ -1,4 +1,5 @@
 const userRouter = require("express").Router();
+const authMiddleware = require("../middlewares/auth.middleware");
 const UserModel = require("../models/user.model");
 // /user/<username>
 userRouter.get("/:username", async (req, res) => {
@@ -20,6 +21,10 @@ userRouter.get("/:username", async (req, res) => {
       error: "Server error",
     });
   }
+});
+
+userRouter.post("/update", authMiddleware, (req, res) => {
+  res.json({ message: "will update" });
 });
 
 module.exports = userRouter;
