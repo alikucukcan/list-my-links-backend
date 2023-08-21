@@ -1,19 +1,16 @@
 const express = require("express");
-const UserModel = require("./models/schemas/user.model");
+const UserModel = require("./models/user.model");
 const { default: mongoose } = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
 
-app.get("/users", async (req, res) => {
-  try {
-    let users = await UserModel.find();
-    res.json(users);
-  } catch (error) {
-    console.log("errr", error);
-    res.json(error);
-  }
-});
+const userRouter = require("./routes/user.route");
+const authRouter = require("./routes/auth.routes");
+
+app.use(express.json());
+app.use("/user", userRouter);
+app.use("/auth", authRouter);
 
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING, {

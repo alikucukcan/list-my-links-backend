@@ -1,4 +1,5 @@
 const LinkGroupSchema = require("./linkGroup.schema");
+const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema(
   {
     fullName: {
