@@ -1,5 +1,8 @@
 const LinkGroupSchema = require("./linkGroup.schema");
 const mongoose = require("mongoose");
+
+// structure of per user  record
+
 const UserSchema = new mongoose.Schema(
   {
     fullName: {
@@ -36,8 +39,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       max: 140,
     },
+    // array of LinkGroup
     linkGroups: [LinkGroupSchema],
   },
+  // created at & updated at timestamps
   { timestamps: true }
 );
 

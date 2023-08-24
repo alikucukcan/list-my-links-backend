@@ -22,7 +22,7 @@ userRouter.get("/:username", async (req, res) => {
     });
   }
 });
-
+// if login reqiured we use auth middleware.
 userRouter.post("/update", authMiddleware, (req, res) => {
   res.json({ message: "will update" });
 });
