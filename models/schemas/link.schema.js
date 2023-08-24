@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 
-const LinkSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
+const LinkSchema = new mongoose.Schema({
+  title: {
+    type: String,
   },
-  { timestamps: true }
-);
+  url: {
+    type: String,
+    required: true,
+  },
+});
 
 module.exports = LinkSchema;

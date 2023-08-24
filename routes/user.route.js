@@ -42,6 +42,25 @@ userRouter.delete("/me", authMiddleware, async (req, res) => {
 });
 
 // if login reqiured we use auth middleware.
-userRouter.post("/update", authMiddleware, (req, res) => {});
+userRouter.post("/update", authMiddleware, async (req, res) => {
+  const newUserData = req.body;
+  const user = req.user;
+  try {
+    await UserModel.updateOne(
+      {
+        username: user.username,
+      },
+      newUserData
+    );
+
+    res.json({
+      message: "user updated",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "user not updated",
+    });
+  }
+});
 
 module.exports = userRouter;

@@ -1,14 +1,11 @@
 const mongoose = require("mongoose");
 const LinkSchema = require("./link.schema");
 
-const LinkGroupSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-    },
-    links: [LinkSchema],
+const LinkGroupSchema = new mongoose.Schema({
+  title: {
+    type: String,
   },
-  { timestamps: true }
-);
+  links: [LinkSchema],
+});
 
 module.exports = LinkGroupSchema;
