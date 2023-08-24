@@ -1,7 +1,8 @@
 const userRouter = require("express").Router();
 const authMiddleware = require("../middlewares/auth.middleware");
 const UserModel = require("../models/user.model");
-// /user/<username>
+
+// /user/<username> -> get user profile
 userRouter.get("/:username", async (req, res) => {
   let username = req.params.username;
   try {
@@ -22,9 +23,25 @@ userRouter.get("/:username", async (req, res) => {
     });
   }
 });
-// if login reqiured we use auth middleware.
-userRouter.post("/update", authMiddleware, (req, res) => {
-  res.json({ message: "will update" });
+
+// /user/me  -> delete user account
+userRouter.delete("/me", authMiddleware, async (req, res) => {
+  let user = req.user;
+  try {
+    await UserModel.findOneAndDelete({
+      username: user.username,
+    });
+    res.json({
+      message: "User deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "User not deleted",
+    });
+  }
 });
+
+// if login reqiured we use auth middleware.
+userRouter.post("/update", authMiddleware, (req, res) => {});
 
 module.exports = userRouter;
