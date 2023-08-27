@@ -11,6 +11,8 @@ const app = express();
 const userRouter = require("./routes/user.route");
 const authRouter = require("./routes/auth.routes");
 
+app.use("/public", express.static("public"));
+
 app.use(express.json()); //body-parser
 // requestz for starts with /user, userRouter will take care
 app.use("/user", userRouter);
