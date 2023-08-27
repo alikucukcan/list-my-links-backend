@@ -1,5 +1,6 @@
 const userRouter = require("express").Router();
 const authMiddleware = require("../middlewares/auth.middleware");
+const upload = require("../middlewares/upload.middleware");
 const UserModel = require("../models/user.model");
 
 // /user/<username> -> get user profile
@@ -72,5 +73,21 @@ userRouter.post("/update", authMiddleware, async (req, res) => {
     });
   }
 });
+
+userRouter.post(
+  "/upload",
+  authMiddleware,
+  upload.single("profilePicture"),
+  async (req, res) => {
+    console.log(req.file);
+    await UserModel.updateOne(
+      { username: req.user.username },
+      {
+        profilePicture: req.file.filename,
+      }
+    );
+    res.json({ message: "image uploaded" });
+  }
+);
 
 module.exports = userRouter;
