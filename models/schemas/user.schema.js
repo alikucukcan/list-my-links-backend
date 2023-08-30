@@ -40,6 +40,7 @@ const UserSchema = new mongoose.Schema({
   },
   // array of LinkGroup
   linkGroups: [LinkGroupSchema],
+  resetPasswordCode: String,
 });
 
 module.exports = UserSchema;

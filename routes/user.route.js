@@ -2,6 +2,7 @@ const userRouter = require("express").Router();
 const authMiddleware = require("../middlewares/auth.middleware");
 const upload = require("../middlewares/upload.middleware");
 const UserModel = require("../models/user.model");
+const sendMail = require("../services/mail.service");
 
 // /user/<username> -> get user profile
 userRouter.get("/:username", async (req, res) => {
@@ -89,5 +90,42 @@ userRouter.post(
     res.json({ message: "image uploaded" });
   }
 );
+
+const generateCode = () => {
+  let code = "";
+
+  for (let i = 0; i < 6; i++) {
+    const random = Math.floor(Math.random() * 10);
+    code = code + random;
+  }
+
+  return code;
+};
+
+userRouter.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+  const code = generateCode();
+  try {
+    await UserModel.updateOne(
+      { email },
+      {
+        resetPasswordCode: code,
+      }
+    );
+
+    await sendMail(
+      email,
+      "Reset password",
+      "Your reset password code is :" + code
+    );
+
+    res.json({ message: "email sent" });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      error: "email not sent",
+    });
+  }
+});
 
 module.exports = userRouter;
