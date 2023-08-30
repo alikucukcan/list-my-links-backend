@@ -128,4 +128,25 @@ userRouter.post("/forgot-password", async (req, res) => {
   }
 });
 
+userRouter.post("/reset-password", async (req, res) => {
+  const { email, code, password } = req.body;
+  try {
+    let user = await UserModel.findOne({ email, resetPasswordCode: code });
+    if (!user) {
+      res.status(500).json({
+        error: "password not changed",
+      });
+    } else {
+      user.password = password;
+      await user.save();
+      res.json({ message: "password changed" });
+    }
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      error: "password not changed",
+    });
+  }
+});
+
 module.exports = userRouter;
