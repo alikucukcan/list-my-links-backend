@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user.model");
+const sendMail = require("../services/mail.service");
 
 const authRouter = require("express").Router();
 
@@ -52,6 +53,64 @@ authRouter.post("/register", async (req, res) => {
     res.status(500).json({
       error: "Server error",
       detail: error,
+    });
+  }
+});
+
+const generateCode = () => {
+  let code = "";
+
+  for (let i = 0; i < 6; i++) {
+    const random = Math.floor(Math.random() * 10);
+    code = code + random;
+  }
+
+  return code;
+};
+
+authRouter.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+  const code = generateCode();
+  try {
+    await UserModel.updateOne(
+      { email },
+      {
+        resetPasswordCode: code,
+      }
+    );
+
+    await sendMail(
+      email,
+      "Reset password",
+      "Your reset password code is :" + code
+    );
+
+    res.json({ message: "email sent" });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      error: "email not sent",
+    });
+  }
+});
+
+authRouter.post("/reset-password", async (req, res) => {
+  const { email, code, password } = req.body;
+  try {
+    let user = await UserModel.findOne({ email, resetPasswordCode: code });
+    if (!user) {
+      res.status(500).json({
+        error: "password not changed",
+      });
+    } else {
+      user.password = password;
+      await user.save();
+      res.json({ message: "password changed" });
+    }
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      error: "password not changed",
     });
   }
 });
