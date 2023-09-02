@@ -1,6 +1,7 @@
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 // we should run config function
 // dotenv package using for reach .env file and use process.env.?
 dotenv.config();
@@ -10,6 +11,8 @@ const app = express();
 
 const userRouter = require("./routes/user.route");
 const authRouter = require("./routes/auth.routes");
+
+app.use(cors());
 
 app.use("/public", express.static("public"));
 
