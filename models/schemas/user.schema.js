@@ -38,6 +38,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     max: 140,
   },
+  theme: {
+    type: String,
+    default: "t2",
+  },
   // array of LinkGroup
   linkGroups: [LinkGroupSchema],
   resetPasswordCode: String,
